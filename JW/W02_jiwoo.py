@@ -272,3 +272,344 @@
 # solution(0,0,N)
 # print(result.count(0))
 # print(result.count(1))
+
+
+# #1629
+# def power(a, b):
+#     if b == 1: # b의 값이 1이면 a % C를 return한다.
+#         return a % C
+#     else:
+#         temp = power(a, b // 2) # a^(b // 2)를 미리 구한다.
+#         if b % 2 == 0:
+#             return temp * temp % C # b가 짝수인 경우
+#         else:
+#             return temp * temp * a % C # b가 홀수인 경우
+
+
+# A, B, C = map(int, input().split())
+
+# result = power(A, B)
+# print(result)
+
+
+# #10930
+# #행렬 관련 다시 보기
+# def mul(n, matrix1, matrix2):
+#     result = [[0 for _ in range(n)] for _ in range(n)]
+
+#     for i in range(n):
+#         for j in range(n):
+#             for k in range(n):
+#                 result[i][j] += matrix1[i][k]*matrix2[k][j]
+#             result[i][j] %= 1000
+#     return result
+
+# def divide(n, b, matrix):
+#     if b == 1: # b의 값이 1이면 a % C를 return한다.
+#         return matrix
+#     elif b == 2:
+#         return mul(n, matrix, matrix)
+#     else:
+#         temp = divide(n, b // 2, matrix) # a^(b // 2)를 미리 구한다.
+#         if b % 2 == 0:
+#             return mul(n, temp, temp) # b가 짝수인 경우
+#         else:
+#             return mul(n, mul(n, temp, temp), matrix) # b가 홀수인 경우
+
+
+# n, b = map(int, input().split())
+# a = [list(map(int, input().split())) for _ in range(n)]
+
+# result = divide(n,b,a)
+# for row in result:
+#     for num in row:
+#         print(num%1000, end=' ')
+#     print()
+        
+
+
+# #2261
+# #나중에 다시보기...
+# n = int(input())
+# coord = [list(map(int, input().split())) for _ in range(n)]
+
+
+# #10828
+# import sys
+# input = sys.stdin.readline
+# N = int(input())
+# stk = []
+# for _ in range(N):
+#     cmd = input().split()
+
+#     if cmd[0] == 'push':
+#         stk.append(cmd[1])
+#     elif cmd[0] == 'pop':
+#         if len(stk) > 0:
+#             print(stk.pop())
+#         else:
+#             print(-1)
+#     elif cmd[0] == 'size':
+#         print(len(stk))
+#     elif cmd[0] == 'empty':
+#         if len(stk) > 0:
+#             print(0)
+#         else:
+#             print(1)
+#     elif cmd[0] == 'top':
+#         if len(stk) > 0:
+#             print(stk[-1])
+#         else:
+#             print(-1)
+
+
+# #10773
+# #11:31
+# #11:36
+# import sys
+# input = sys.stdin.readline
+# K = int(input())
+# nums = []
+
+# for _ in range(K):
+#     a = int(input())
+#     if a == 0:
+#         nums.pop()
+#     else:
+#         nums.append(a)
+
+# print(sum(nums))
+
+
+# #9012
+# T = int(input())
+
+# for _ in range(T):
+#     A = input()
+#     stk = []
+#     for a in A:
+#         if a == '(':
+#             stk.append('(')
+#         else:
+#             if len(stk) > 0:
+#                 stk.pop()
+#             else:
+#                 stk.append(')')
+#                 break
+
+
+#     if len(stk) > 0:
+#         print('NO')
+#     else:
+#         print('YES')
+
+
+# #17608
+# #pypy3 통과
+# import sys
+# input = sys.stdin.readline
+# N = int(input())
+# stk = []
+# tmp = 0
+# for i in range(0, N):
+#     a = int(input())
+#     #작아지는 경우 -> 스택에 담기
+#     if len(stk) == 0:
+#         stk.append(a)
+#         tmp = a
+#     else:
+#         if tmp > a:
+#             stk.append(a)
+#             tmp = a
+#         elif tmp <= a:
+#             while True:
+#                 stk.pop()
+#                 if len(stk) == 0 or stk[-1] > a:
+#                     break
+#                 tmp = stk[-1]
+#             stk.append(a)
+#             tmp = a
+    
+
+# print(len(stk))
+# # print(stk)
+
+
+# # #다른 풀이
+# # import sys
+# # input = sys.stdin.readline
+
+# # n = int(input())
+# # l = []
+
+# # for _ in range(n):
+# # 	l.append(int(input()))
+# # count = 0
+# # max = 0
+# # for x in reversed(l):
+# # 	if max < x:
+# # 		max = x
+# # 		count += 1
+# # print(count)
+
+
+#2504
+#계산만 잘하면 될거같은데...
+# L = input()
+# stk1 = []
+# stk2 = []
+# isOpen = True
+# tmp = ''
+# def check():
+#     global tmp
+
+#     if (len(stk1) == 1 and len(stk2) == 0) or (len(stk1) == 0 and len(stk2) == 1) or (len(stk1) == 0 and len(stk2) == 0):
+#         print(tmp)
+#         tmp = str(eval(tmp))
+#         return True
+#     else:
+#         return False
+
+# for l in L:
+
+#     if isOpen:
+#         if l == '(':
+#             stk1.append('(')
+#             isOpen = True
+#         elif l == '[':
+#             stk2.append('[')
+#             isOpen = True
+#         elif l == ')' and len(stk1) > 0:
+#             stk1.pop()
+#             tmp += '2'
+#             isOpen = False
+#         elif l == ']' and len(stk2) > 0:
+#             stk2.pop()
+#             tmp += '3'
+#             isOpen = False
+#         else:
+#             tmp = 0
+#             break
+
+#     else:
+#         if l == '(':
+#             stk1.append('(')
+#             tmp += '+'
+#             isOpen = True
+#         elif l == '[':
+#             stk2.append('[')
+#             tmp += '+'
+#             isOpen = True
+#         elif l == ')' and len(stk1) > 0:
+#             stk1.pop()
+#             check()
+#             tmp += '*'
+#             tmp += '2'
+#             isOpen = False
+            
+#         elif l == ']' and len(stk2) > 0:
+#             stk2.pop()
+#             check()
+#             tmp += '*'
+#             tmp += '3'
+#             isOpen = False
+            
+#         else:
+#             tmp = 0
+#             break
+    
+    
+# print(str(eval))
+# # print(eval(tmp))
+
+
+# #정답 코드
+# s = input()
+# stack = []
+# tmp = 1
+# res = 0
+
+# # for c in s를 하면 안 되고 길이로 돌아야 함
+# for i in range(len(s)):
+#   if s[i] == '(':
+#     tmp *= 2
+#     stack.append(s[i])
+#   elif s[i] == '[':
+#     tmp *= 3
+#     stack.append(s[i])
+
+#   elif s[i] == ')':
+#     if not stack or stack[-1] == '[':
+#       res = 0
+#       break
+#     if s[i-1] == '(':
+#       res += tmp
+#     tmp //= 2
+#     stack.pop() # pop도 까먹지 말고 꼭
+  
+#   else:
+#     if not stack or stack[-1] == '(':
+#       res = 0
+#       break
+#     # [()]의 경우 ] 직전 문자가 )이므로 더하지 않고 넘어감
+#     # 단, 이 경우는 오류는 아님
+#     if s[i-1] == '[':
+#       res += tmp
+#     tmp //= 3
+#     stack.pop() # pop 까먹지 말기
+
+# if stack:
+#   res = 0
+# print(res)
+
+
+
+# #2493
+# import sys
+# input = sys.stdin.readline
+
+# n = int(input())
+# t_list = list(map(int, input().split()))
+# stk = []
+
+# for i in range(n):
+#     h = t_list[i]
+#     if stk:
+#         #원소가 있을 때
+#         while stk:
+#             if stk[-1][0] > h:
+#                 print(stk[-1][1]+1, end=' ')
+#                 break
+#             elif stk[-1][0] < h:
+#                 #이전것은 pop한다.
+#                 stk.pop()
+#                 if not stk:
+#                     print(0, end=' ')
+#             else:
+#                 print(stk[-1][1]+1, end=' ')
+#                 stk.pop()
+#                 break
+
+#         #새로운거 넣기
+#         stk.append([h, i])
+
+#     else:
+#         #원소가 없을때
+#         print(0, end=' ')
+#         stk.append([h, i])
+
+
+
+#2812
+N, K = map(int, input().split())
+num = list(input())
+k, stack = K, []
+
+for i in range(N):
+    while stack and K > 0 and stack[-1] < num[i]:
+        stack.pop()
+        K -= 1
+    stack.append(num[i])
+
+print(''.join(stack[:N-K]))
+
