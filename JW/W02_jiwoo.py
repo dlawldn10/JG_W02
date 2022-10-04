@@ -600,16 +600,244 @@
 
 
 
-#2812
-N, K = map(int, input().split())
-num = list(input())
-k, stack = K, []
+# #2812
+# N, K = map(int, input().split())
+# num = list(input())
+# k, stack = K, []
 
-for i in range(N):
-    while stack and K > 0 and stack[-1] < num[i]:
-        stack.pop()
-        K -= 1
-    stack.append(num[i])
+# for i in range(N):
+#     while stack and K > 0 and stack[-1] < num[i]:
+#         stack.pop()
+#         K -= 1
+#     stack.append(num[i])
 
-print(''.join(stack[:N-K]))
+# print(''.join(stack[:N-K]))
+
+
+# #10000
+# import sys
+# input = sys.stdin.readline
+# N = int(input())
+# circles = []
+# for _ in range(N):
+#     point, radius = map(int, input().split())
+#     circles.append((point-radius, '('))
+#     circles.append((point+radius, ')'))
+
+# #좌표 기준 정렬, 같은 좌표일 경우 ')'에게 우선순위
+# circles = sorted(circles, key= lambda x:(x[0], -ord(x[1])))
+
+# # print(circles)
+# stk = []
+# answer = 1
+# for i in range(len(circles)):
+#     position, bracket = circles[i] 
+#     if len(stk) == 0:
+#         stk.append({'pos': circles[i][0], 'bracket': circles[i][1], 'status': 0})
+#         continue
+
+#     #닫힌괄호 일때
+#     if bracket == ')':
+#         if stk[-1]['status'] == 0:
+#             answer += 1
+#         elif stk[-1]['status'] == 1:
+#             answer += 2
+
+#         stk.pop()
+
+#         #원이 이어져있는지 확인
+#         if i != len(circles)-1:
+#             if circles[i+1][0] != position:
+#                 stk[-1]['status'] = 0
+
+
+#     #열린괄호 일때    
+#     else:
+#         if stk[-1]['pos'] == position:
+#             #접하는 경우
+#             stk[-1]['status'] = 1
+#             stk.append({'pos': position, 'bracket': bracket, 'status': 0})
+#         else:
+#             #접하지 않음
+#             stk.append({'pos': position, 'bracket': bracket, 'status': 0})
+        
+    
+# print(answer)
+
+
+# #18258
+# import sys
+# from collections import deque
+# input = sys.stdin.readline
+# N = int(input())
+# dq = deque()
+# for _ in range(N):
+#     cmd = input().split()
+
+#     if cmd[0] == 'push':
+#         dq.append(cmd[1])
+#     elif cmd[0] == 'pop':
+#         if len(dq) > 0:
+#             print(dq.popleft())
+#         else:
+#             print(-1)
+#     elif cmd[0] == 'size':
+#         print(len(dq))
+#     elif cmd[0] == 'empty':
+#         if len(dq) > 0:
+#             print(0)
+#         else:
+#             print(1)
+#     elif cmd[0] == 'front':
+#         if len(dq) > 0:
+#             print(dq[0])
+#         else:
+#             print(-1)
+#     elif cmd[0] == 'back':
+#         if len(dq) > 0:
+#             print(dq[-1])
+#         else:
+#             print(-1)
+
+
+
+# #2164
+# from collections import deque
+# dq = deque([i for i in range(1, int(input())+1)])
+
+# while len(dq) > 1:
+#     dq.popleft()
+#     dq.append(dq.popleft())
+
+# print(dq.popleft())
+
+
+# #11866
+# from collections import deque
+# N, K = map(int, input().split())
+# dq = deque([i for i in range(1, N+1)])
+
+# print('<', end='')
+# while len(dq) > 0:
+#     for _ in range(K-1):
+#         dq.append(dq.popleft())
+    
+
+#     if len(dq) == 1:
+#         print(dq.popleft(), end='>')
+#     else:
+#         print(dq.popleft(), end=', ')
+
+
+# #11297
+# import sys, heapq
+# input = sys.stdin.readline
+# N = int(input())
+# hq = []
+# for _ in range(N):
+#     num = int(input())
+#     if num == 0:
+#         print(abs(heapq.heappop(hq)) if len(hq)>0 else 0)
+#     else:
+#         heapq.heappush(hq, -num)
+
+
+# #1655
+# #시간초과
+# # import sys, heapq, copy
+# # input = sys.stdin.readline
+# # N = int(input())
+# # hq = []
+
+# # for i in range(1, N+1):
+# #     num = int(input())
+# #     heapq.heappush(hq, num)
+# #     tmp = copy.deepcopy(hq)
+# #     # print(tmp)
+# #     if i%2 == 0:
+# #         for j in range(i//2-1):
+# #             heapq.heappop(tmp)
+# #     else:
+# #         for j in range(i//2):
+# #             heapq.heappop(tmp)
+# #     print(heapq.heappop(tmp))
+
+
+# #정답 코드
+# #힙을 두개 쓰기
+# #left는 최대힙, right는 최소힙
+# import sys, heapq
+# input = sys.stdin.readline
+# N = int(input())
+# left_hq = []
+# right_hq = []
+# answer = []
+
+# for i in range(1, N+1):
+#     num = int(input())
+
+#     if len(left_hq) == len(right_hq):
+#         heapq.heappush(left_hq, -num)
+#     else:
+#         heapq.heappush(right_hq, num)
+    
+#     if right_hq and right_hq[0] < -left_hq[0]:
+#         print('-left0: ' + str(-left_hq[0]))
+#         print('right0: ' + str(right_hq[0]))
+#         leftValue = heapq.heappop(left_hq)
+#         rightValue = heapq.heappop(right_hq) 
+
+#         heapq.heappush(left_hq, -rightValue)
+#         heapq.heappush(right_hq, -leftValue)
+
+#     print(-left_hq[0])
+
+
+# #1715
+# import sys, heapq
+# input = sys.stdin.readline
+# N = int(input())
+# card_deck = []
+
+# for _ in range(N):
+#     heapq.heappush(card_deck, int(input()))
+
+# if len(card_deck) <= 1:
+#     print(0)
+# else:
+#     answer = 0
+#     while len(card_deck) > 1:
+        
+#         deck1 = heapq.heappop(card_deck)
+#         deck2 = heapq.heappop(card_deck)
+#         answer += deck1 + deck2
+#         heapq.heappush(card_deck, deck1 + deck2)
+
+#     print(answer)
+
+
+#13334
+import sys
+input = sys.stdin.readline
+from heapq import heappush, heappop
+
+def solution(n):
+    lst = [sorted(list(map(int, input().split()))) for i in range(n)]
+    lst.sort(key=lambda x: x[1])
+    d = int(input())
+    result = -1
+    heap = []
+    for s, e in lst:
+        lim = e - d
+        if s >= lim:
+            heappush(heap, s)
+        while heap and heap[0] < lim:
+            heappop(heap)
+        result = max(result, len(heap))
+    print(result)
+
+if __name__ == '__main__':
+    solution(int(input()))
+
+
 
