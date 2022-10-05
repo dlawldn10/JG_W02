@@ -816,28 +816,120 @@
 #     print(answer)
 
 
-#13334
+# #13334
+# import heapq, sys
+
+# input = sys.stdin.readline
+
+# n = int(input())
+# points = []
+
+
+
+#3190
+from collections import deque
 import sys
 input = sys.stdin.readline
-from heapq import heappush, heappop
+length_map = int(input())
+number_apple = int(input())
+list_apple = []
 
-def solution(n):
-    lst = [sorted(list(map(int, input().split()))) for i in range(n)]
-    lst.sort(key=lambda x: x[1])
-    d = int(input())
-    result = -1
-    heap = []
-    for s, e in lst:
-        lim = e - d
-        if s >= lim:
-            heappush(heap, s)
-        while heap and heap[0] < lim:
-            heappop(heap)
-        result = max(result, len(heap))
-    print(result)
+for _ in range(number_apple):
+    x, y = map(int, input().split())
+    list_apple.append((x-1, y-1))
 
-if __name__ == '__main__':
-    solution(int(input()))
+number_turn = int(input())
+list_turn = []
+
+for _ in range(number_turn):
+    after_second, left_right = map(str, input().split())
+    list_turn.append((int(after_second), left_right))
+
+que_snake = deque([(0, 0)])
+second = 0
+direction = deque(['right', 'down', 'left', 'up'])
+while 0 <= que_snake[-1][0] < length_map and 0 <= que_snake[-1][1] < length_map:
+    second += 1
+    if direction[0] == 'right':
+        que_snake.append((que_snake[-1][0], que_snake[-1][1] + 1))
+    elif direction[0] == 'down':
+        que_snake.append((que_snake[-1][0]+1, que_snake[-1][1]))
+    elif direction[0] == 'left':
+        que_snake.append((que_snake[-1][0], que_snake[-1][1]-1))
+    elif direction[0] == 'up':
+        que_snake.append((que_snake[-1][0]-1, que_snake[-1][1]))
+    if que_snake.count(que_snake[-1]) == 2:
+        break
+    if (que_snake[-1][0], que_snake[-1][1]) not in list_apple:
+        que_snake.popleft()
+    else:
+        list_apple.remove((que_snake[-1][0], que_snake[-1][1]))
+    for i,j in list_turn:
+        if i == second:
+            if j == 'D':
+                direction.rotate(-1)
+            elif j == 'L':
+                direction.rotate(+1)
+print(second)
+
+    
+#6549
+# #시간초과
+# import sys
+# input = sys.stdin.readline
+
+# while True:
+#     l = list(map(int, input().split()))
+#     n = l[0]
+#     checked = []
+#     if n == 0:
+#         break
+#     width = 1
+#     max_area = 0
+#     for i in range(1, len(l)):
+#         pivot = l[i]
+#         if pivot in checked:
+#             continue
+
+#         checked.append(l[i])
+#         for j in range(1, len(l)):
+#             if l[j] >= pivot and j !=len(l)-1:
+#                 width += 1
+#             else:
+#                 max_area = max(width*pivot, max_area)
+#                 # print(max_area)
+#                 width = 0
+
+#     print(max_area)
+
+
+# #스택 사용 정답 코드
+# import sys
+# input = sys.stdin.readline
+
+# while True:
+#     n, *l = map(int, input().split())
+    
+#     if n == 0:
+#         break
+    
+#     max_area = 0
+#     stack = []
+
+#     for i in range(0, len(l)):
+#         idx = i
+#         while stack and stack[-1][0] >= l[i]:
+#             h, idx = stack.pop()
+#             tmp = h * (i-idx)
+#             max_area = max(max_area, tmp)
+
+#         stack.append([l[i], idx])
+
+#     for h, point in stack:
+#         max_area = max(max_area, (n-point)*h)
+
+
+#     print(max_area)
 
 
 
