@@ -35,7 +35,6 @@
 # bottom = 1
 # top = max(h)
 # mid = (bottom + top)//2
-# ans = 0
 
 # while bottom <= top:
 #     sum = 0
@@ -46,7 +45,6 @@
 #     if sum < M:
 #         top = mid - 1
 #     elif sum >= M:
-#         ans = mid
 #         bottom = mid + 1
         
 
@@ -826,51 +824,51 @@
 
 
 
-#3190
-from collections import deque
-import sys
-input = sys.stdin.readline
-length_map = int(input())
-number_apple = int(input())
-list_apple = []
+# #3190
+# from collections import deque
+# import sys
+# input = sys.stdin.readline
+# length_map = int(input())
+# number_apple = int(input())
+# list_apple = []
 
-for _ in range(number_apple):
-    x, y = map(int, input().split())
-    list_apple.append((x-1, y-1))
+# for _ in range(number_apple):
+#     x, y = map(int, input().split())
+#     list_apple.append((x-1, y-1))
 
-number_turn = int(input())
-list_turn = []
+# number_turn = int(input())
+# list_turn = []
 
-for _ in range(number_turn):
-    after_second, left_right = map(str, input().split())
-    list_turn.append((int(after_second), left_right))
+# for _ in range(number_turn):
+#     after_second, left_right = map(str, input().split())
+#     list_turn.append((int(after_second), left_right))
 
-que_snake = deque([(0, 0)])
-second = 0
-direction = deque(['right', 'down', 'left', 'up'])
-while 0 <= que_snake[-1][0] < length_map and 0 <= que_snake[-1][1] < length_map:
-    second += 1
-    if direction[0] == 'right':
-        que_snake.append((que_snake[-1][0], que_snake[-1][1] + 1))
-    elif direction[0] == 'down':
-        que_snake.append((que_snake[-1][0]+1, que_snake[-1][1]))
-    elif direction[0] == 'left':
-        que_snake.append((que_snake[-1][0], que_snake[-1][1]-1))
-    elif direction[0] == 'up':
-        que_snake.append((que_snake[-1][0]-1, que_snake[-1][1]))
-    if que_snake.count(que_snake[-1]) == 2:
-        break
-    if (que_snake[-1][0], que_snake[-1][1]) not in list_apple:
-        que_snake.popleft()
-    else:
-        list_apple.remove((que_snake[-1][0], que_snake[-1][1]))
-    for i,j in list_turn:
-        if i == second:
-            if j == 'D':
-                direction.rotate(-1)
-            elif j == 'L':
-                direction.rotate(+1)
-print(second)
+# que_snake = deque([(0, 0)])
+# second = 0
+# direction = deque(['right', 'down', 'left', 'up'])
+# while 0 <= que_snake[-1][0] < length_map and 0 <= que_snake[-1][1] < length_map:
+#     second += 1
+#     if direction[0] == 'right':
+#         que_snake.append((que_snake[-1][0], que_snake[-1][1] + 1))
+#     elif direction[0] == 'down':
+#         que_snake.append((que_snake[-1][0]+1, que_snake[-1][1]))
+#     elif direction[0] == 'left':
+#         que_snake.append((que_snake[-1][0], que_snake[-1][1]-1))
+#     elif direction[0] == 'up':
+#         que_snake.append((que_snake[-1][0]-1, que_snake[-1][1]))
+#     if que_snake.count(que_snake[-1]) == 2:
+#         break
+#     if (que_snake[-1][0], que_snake[-1][1]) not in list_apple:
+#         que_snake.popleft()
+#     else:
+#         list_apple.remove((que_snake[-1][0], que_snake[-1][1]))
+#     for i,j in list_turn:
+#         if i == second:
+#             if j == 'D':
+#                 direction.rotate(-1)
+#             elif j == 'L':
+#                 direction.rotate(+1)
+# print(second)
 
     
 #6549
@@ -928,8 +926,116 @@ print(second)
 #     for h, point in stack:
 #         max_area = max(max_area, (n-point)*h)
 
-
 #     print(max_area)
+
+
+
+#################
+##개인 Practice##
+#################
+
+
+# #10816
+# #bisect 사용 풀이
+# from bisect import bisect_right, bisect_left
+
+# N = int(input())
+# cards = sorted(list(map(int, input().split())))
+# M = int(input())
+# ans = []
+# for i in map(int, input().split()):
+#     ans.append(bisect_right(cards, i) - bisect_left(cards, i))
+
+# print(' '.join(map(str, ans)))
+
+
+# #map 사용 풀이
+# N = int(input())
+# cards = {}
+# for num in map(int,input().split()):
+#     if num in cards:
+#         cards[num] += 1
+#     else:
+#         cards[num] = 1
+
+# M = int(input())
+# ans = []
+# for i in map(int, input().split()):
+#     if i in cards:
+#         ans.append(cards[i])
+#     else:
+#         ans.append(0)
+
+# print(' '.join(map(str, ans)))
+
+
+# #11286
+# import heapq, sys
+# input = sys.stdin.readline
+# N = int(input())
+# hq = []
+# for _ in range(N):
+#     num = int(input())
+#     if num != 0:
+#         heapq.heappush(hq, (abs(num), num))
+#     elif num == 0:
+#         if len(hq) == 0:
+#             print(0)
+#         else:
+#             print(heapq.heappop(hq)[1])
+
+
+# #5397
+# T = int(input())
+
+# for _ in range(T):
+#     stk1 = []
+#     stk2 = []
+#     input_str = input()
+#     for l in input_str:
+#         if l == "<":
+#             if len(stk1) > 0:
+#                 stk2.append(stk1.pop())
+#         elif l == ">":
+#             if len(stk2) > 0:
+#                 stk1.append(stk2.pop())
+#         elif l == "-":
+#             if len(stk1) > 0:
+#                 stk1.pop()
+#         else:
+#             stk1.append(l)
+            
+#     print(''.join(stk1) + ''.join(reversed(stk2)))
+
+
+
+# #1935
+# N = int(input())
+# s = input()
+# arr = [int(input()) for _ in range(N)]
+# stk = []
+# for ch in s:
+#     if ch.isalpha(): #피연산자이면
+#         stk.append(arr[ord(ch) - ord('A')])
+#         continue
+
+#     b = stk.pop()
+#     a = stk.pop()
+#     if ch == '+':
+#         stk.append(a+b)
+#     elif ch == '-':
+#         stk.append(a-b)
+#     elif ch == '*':
+#         stk.append(a*b)
+#     elif ch == '/': #나눗셈의 경우 연산 순서 중요하므로 주의할 것!
+#         stk.append(a/b)
+
+# print(f"{stk[0]:.2f}")
+
+
+
+
+
 
 
 
